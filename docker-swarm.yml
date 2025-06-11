@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  client:
+    image: albertxp/todo:client
+    ports:
+      - "80:80"
+    environment:
+      - REACT_APP_SERVER_URL=http://172.21.125.117:443
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+
+  server:
+    image: albertxp/todo:server
+    ports:
+      - "443:3000"
+    environment:
+      - MONGO_URI=mongodb://172.21.125.117:27017/todos
+
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
